@@ -123,8 +123,8 @@ public class login extends javax.swing.JFrame {
             
             pst = conn.prepareStatement(sql);
             
-            pst.setString(1, txt_username.toString());
-            pst.setString(2, txt_password.toString());
+            pst.setString(1, txt_username.getText());
+            pst.setString(2, txt_password.getText());
             pst.setString(3, txt_combobox.getSelectedItem().toString());
             
             rs = pst.executeQuery();
