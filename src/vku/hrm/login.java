@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 package vku.hrm;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.sql.*;
 import java.time.Month;
 import javax.swing.JOptionPane;
@@ -23,6 +25,11 @@ public class login extends javax.swing.JFrame {
      */
     public login() {
         initComponents();
+        
+        Toolkit toolkit = getToolkit();
+        Dimension dimension = toolkit.getScreenSize();
+        setLocation(dimension.width/2-getWidth()/2,dimension.height/2-getHeight()/2);
+        
         conn = db.java_db();
         curentDateTime();
     }
@@ -73,12 +80,12 @@ public class login extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("CHƯƠNG TRÌNH QUẢN LÝ NHÂN SỰ CHO CÔNG TY MAI VẠN TÍN");
         jPanel1.add(jLabel1);
-        jLabel1.setBounds(0, 220, 600, 17);
+        jLabel1.setBounds(70, 70, 500, 17);
 
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Tên đăng nhập:");
         jPanel1.add(jLabel2);
-        jLabel2.setBounds(30, 250, 100, 30);
+        jLabel2.setBounds(20, 210, 100, 30);
 
         txt_username.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -86,17 +93,17 @@ public class login extends javax.swing.JFrame {
             }
         });
         jPanel1.add(txt_username);
-        txt_username.setBounds(140, 250, 150, 30);
+        txt_username.setBounds(140, 210, 150, 30);
 
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Mật khẩu:");
         jPanel1.add(jLabel3);
-        jLabel3.setBounds(30, 290, 90, 30);
+        jLabel3.setBounds(30, 260, 90, 30);
 
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Vai trò:");
         jPanel1.add(jLabel4);
-        jLabel4.setBounds(30, 320, 50, 40);
+        jLabel4.setBounds(30, 300, 50, 40);
 
         txt_combobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "Sales" }));
         txt_combobox.addActionListener(new java.awt.event.ActionListener() {
@@ -105,7 +112,7 @@ public class login extends javax.swing.JFrame {
             }
         });
         jPanel1.add(txt_combobox);
-        txt_combobox.setBounds(140, 330, 150, 30);
+        txt_combobox.setBounds(140, 310, 150, 30);
 
         btn_login.setText("Đăng nhập");
         btn_login.addActionListener(new java.awt.event.ActionListener() {
@@ -114,9 +121,9 @@ public class login extends javax.swing.JFrame {
             }
         });
         jPanel1.add(btn_login);
-        btn_login.setBounds(185, 370, 100, 23);
+        btn_login.setBounds(185, 370, 100, 30);
         jPanel1.add(txt_password);
-        txt_password.setBounds(140, 290, 150, 30);
+        txt_password.setBounds(140, 260, 150, 30);
 
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/vku/hrm/images/hinh nen động.gif"))); // NOI18N
