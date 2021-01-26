@@ -175,6 +175,8 @@ public class login extends javax.swing.JFrame {
             
             while(rs.next()){ 
                 count=1;
+                int id = rs.getInt(1);
+                Employee.empId = id;
                 System.out.println("rs.next():"+rs.getString(1));
             }
             System.out.println("count:"+count);
