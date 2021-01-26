@@ -5,7 +5,11 @@
  */
 package vku.hrm;
 import java.sql.*;
+import java.time.Month;
 import javax.swing.JOptionPane;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Calendar;
 /**
  *
  * @author Admin
@@ -20,6 +24,21 @@ public class login extends javax.swing.JFrame {
     public login() {
         initComponents();
         conn = db.java_db();
+        curentDateTime();
+    }
+    public void curentDateTime(){
+        Calendar cal = new GregorianCalendar();
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+        int date = cal.get(Calendar.DATE);
+        
+        lbl_date.setText((date)+"/"+(month +1)+"/"+year);
+        
+        int hour = cal.get(Calendar.HOUR);
+        int minute = cal.get(Calendar.MINUTE);
+        int second = cal.get(Calendar.SECOND);
+        
+        lbl_time.setText(hour+":"+minute+":"+second);
     }
 
     /**
@@ -41,6 +60,10 @@ public class login extends javax.swing.JFrame {
         btn_login = new javax.swing.JButton();
         txt_password = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        lbl_date = new javax.swing.JMenu();
+        lbl_time = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -100,7 +123,18 @@ public class login extends javax.swing.JFrame {
         jLabel5.setMaximumSize(new java.awt.Dimension(100, 100));
         jLabel5.setMinimumSize(new java.awt.Dimension(100, 100));
         jPanel1.add(jLabel5);
-        jLabel5.setBounds(0, 0, 600, 400);
+        jLabel5.setBounds(0, 0, 600, 420);
+
+        jMenu1.setText("File");
+        jMenuBar1.add(jMenu1);
+
+        lbl_date.setText("Date");
+        jMenuBar1.add(lbl_date);
+
+        lbl_time.setText("Time");
+        jMenuBar1.add(lbl_time);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -110,7 +144,7 @@ public class login extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE)
         );
 
         pack();
@@ -211,7 +245,11 @@ public class login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JMenu lbl_date;
+    private javax.swing.JMenu lbl_time;
     private javax.swing.JComboBox<String> txt_combobox;
     private javax.swing.JTextField txt_password;
     private javax.swing.JTextField txt_username;
