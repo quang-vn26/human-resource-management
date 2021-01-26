@@ -65,7 +65,7 @@ public class login extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         txt_combobox = new javax.swing.JComboBox<>();
         btn_login = new javax.swing.JButton();
-        txt_password = new javax.swing.JTextField();
+        txt_password = new javax.swing.JPasswordField();
         jLabel5 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -122,6 +122,8 @@ public class login extends javax.swing.JFrame {
         });
         jPanel1.add(btn_login);
         btn_login.setBounds(185, 370, 100, 30);
+
+        txt_password.setText("jPasswordField2");
         jPanel1.add(txt_password);
         txt_password.setBounds(140, 260, 150, 30);
 
@@ -260,7 +262,7 @@ public class login extends javax.swing.JFrame {
     private javax.swing.JMenu lbl_date;
     private javax.swing.JMenu lbl_time;
     private javax.swing.JComboBox<String> txt_combobox;
-    private javax.swing.JTextField txt_password;
+    private javax.swing.JPasswordField txt_password;
     private javax.swing.JTextField txt_username;
     // End of variables declaration//GEN-END:variables
 }
