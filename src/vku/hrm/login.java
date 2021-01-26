@@ -31,6 +31,7 @@ public class login extends javax.swing.JFrame {
         setLocation(dimension.width/2-getWidth()/2,dimension.height/2-getHeight()/2);
         
         conn = db.java_db();
+        
         curentDateTime();
     }
     public void curentDateTime(){
@@ -122,8 +123,6 @@ public class login extends javax.swing.JFrame {
         });
         jPanel1.add(btn_login);
         btn_login.setBounds(185, 370, 100, 30);
-
-        txt_password.setText("jPasswordField2");
         jPanel1.add(txt_password);
         txt_password.setBounds(140, 260, 150, 30);
 
