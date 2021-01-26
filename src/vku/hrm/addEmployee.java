@@ -99,6 +99,7 @@ public class addEmployee extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        txt_id.setEditable(false);
         txt_id.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_idActionPerformed(evt);
@@ -497,6 +498,8 @@ public class addEmployee extends javax.swing.JFrame {
 
     private void addEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addEmpActionPerformed
         // TODO add your handling code here:
+        int p = JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn thêm?","Thêm hồ sơ",JOptionPane.YES_NO_OPTION);
+        if(p==0){
         try {
             String sql ="insert into Employee_information " 
                         + "(first_name,surname,Dob,Email,"
@@ -529,6 +532,7 @@ public class addEmployee extends javax.swing.JFrame {
             
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
+        }
         }
     }//GEN-LAST:event_addEmpActionPerformed
 
@@ -682,7 +686,7 @@ public class addEmployee extends javax.swing.JFrame {
                 img.setIcon(imageIcon);
 
         }catch(Exception e){
-                JOptionPane.showMessageDialog(null, e);
+                //JOptionPane.showMessageDialog(null,e);
         }
         finally {
 
@@ -701,6 +705,8 @@ public class addEmployee extends javax.swing.JFrame {
 
     private void btn_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_deleteActionPerformed
         // TODO add your handling code here:
+        int p = JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn xoá?","Xoá hồ sơ",JOptionPane.YES_NO_OPTION);
+        if(p==0){
         try {
             String sql = "delete from Employee_information where id=?";
             pst = conn.prepareStatement(sql);
@@ -735,6 +741,7 @@ public class addEmployee extends javax.swing.JFrame {
             } catch (Exception e) {
                 JOptionPane.showConfirmDialog(null, e);
             }
+        }
         }
     }//GEN-LAST:event_btn_deleteActionPerformed
 
