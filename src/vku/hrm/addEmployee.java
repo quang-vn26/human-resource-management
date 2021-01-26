@@ -533,7 +533,41 @@ public class addEmployee extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
+        
+        try {
+            String sq ="select * from Employee_information where (id) NOT IN (select id from Users)";
+            pst=conn.prepareStatement(sq);
+            rs=pst.executeQuery();
+            
+            while(rs.next()){
+                String add1 =rs.getString("id");
+                String add2 =rs.getString("first_name");
+                String add3 =rs.getString("Dob");
+                String result =add3.replace("/" ,"");
+                String add4 =rs.getString("Designation");
+                
+                String sql ="insert into Users (division,username,password,id_emp) values ('"+add4+"','"+add2+"','"+result+"','"+add1+"') ";
+                pst=conn.prepareStatement(sql);
+                
+                if((add2!=null) && (add4!=null) && (result!= null))
+                pst.execute();
+                JOptionPane.showMessageDialog(null,"Hồ sơ được tạo thành công: " +" Tên đăng nhập:  "+add2+ " Mật khẩu:  "+result);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,e);
         }
+        finally{
+            try{
+                    rs.close();
+                    pst.close();
+
+                }
+                 catch(Exception e){
+                   JOptionPane.showMessageDialog(null,e);
+                }
+        }
+        
+       }
     }//GEN-LAST:event_addEmpActionPerformed
 
     private void r_maleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_r_maleActionPerformed
