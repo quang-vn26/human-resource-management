@@ -95,6 +95,7 @@ public class addEmployee extends javax.swing.JFrame {
         txt_search = new javax.swing.JTextField();
         jLabel18 = new javax.swing.JLabel();
         btn_delete = new javax.swing.JButton();
+        btn_update = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -249,6 +250,13 @@ public class addEmployee extends javax.swing.JFrame {
             }
         });
 
+        btn_update.setText("Cập Nhật");
+        btn_update.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_updateActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -306,6 +314,8 @@ public class addEmployee extends javax.swing.JFrame {
                                 .addComponent(clearForm, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(btn_delete, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btn_update)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addGroup(layout.createSequentialGroup()
@@ -401,7 +411,8 @@ public class addEmployee extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(addEmp, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(clearForm, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btn_delete, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btn_delete, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btn_update, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -590,7 +601,25 @@ public class addEmployee extends javax.swing.JFrame {
     private void txt_searchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_searchKeyReleased
         // TODO add your handling code here:
         try{
-
+            txt_id.setText("");
+            txt_firstname.setText("");
+            txt_surname.setText("");
+            txt_tel.setText("");
+            txt_dob.setText("");
+            txt_email.setText("");
+            txt_address.setText("");
+            txt_dep.setText("");
+            txt_status.setText("");
+            txt_salary.setText("");
+            txt_address2.setText("");
+            txt_pc.setText("");
+            txt_design.setText("");
+            txt_job.setText("");
+            txt_apt.setText("");
+            txt_doj.setText("");
+            img.setIcon(null);
+            
+            
             String sql ="select * from Employee_information where id=? ";
 
             pst=conn.prepareStatement(sql);
@@ -653,24 +682,7 @@ public class addEmployee extends javax.swing.JFrame {
                 img.setIcon(imageIcon);
 
         }catch(Exception e){
-//                txt_id.setText("");
-//                txt_firstname.setText("");
-//                txt_surname.setText("");
-//                txt_tel.setText("");
-//                txt_dob.setText("");
-//                txt_email.setText("");
-//                txt_address.setText("");
-//                txt_dep.setText("");
-//                txt_status.setText("");
-//                txt_salary.setText("");
-//                txt_address2.setText("");
-//                txt_pc.setText("");
-//                txt_design.setText("");
-//                txt_job.setText("");
-//                txt_apt.setText("");
-//                txt_doj.setText("");
-//                img.setIcon(null);
-
+                JOptionPane.showMessageDialog(null, e);
         }
         finally {
 
@@ -726,6 +738,60 @@ public class addEmployee extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btn_deleteActionPerformed
 
+    private void btn_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_updateActionPerformed
+        // TODO add your handling code here:
+        int p = JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn cập nhật?","Cập nhật hồ sơ",JOptionPane.YES_NO_OPTION);
+        if(p==0){
+           
+            try{
+
+                String value1 = txt_firstname.getText();
+                String value2 = txt_surname.getText();
+                String value3 = txt_dob.getText();
+                String value4 = txt_id.getText();
+                String value5 = txt_email.getText();
+                String value6 = txt_tel.getText();
+                String value7 = txt_address.getText();
+                String value8 = txt_dep.getText();
+                String value9 = txt_address2.getText();
+                String value10 = txt_apt.getText();
+                String value11 = txt_pc.getText();
+                String value12 = txt_design.getText();
+                String value13 = txt_status.getText();
+                String value14 = txt_salary.getText();
+                String value15 = txt_job.getText();
+                String value16 = txt_doj.getText();
+                //String value 17 = gender;
+
+                String sql= "update Employee_information set id='"+value4+"',first_name='"+value1+"', surname='"+value2+"', "
+                        + "Dob='"+value3+"',Email='"+value5+"',Telephone='"+value6+"',"
+                        + "Address='"+value7+"',Department='"+value8+"', Address2 = '"+value9+"', "
+                        + "Apartment = '"+value10+"', Post_code ='"+value11+"', "
+                        + "Designation ='"+value12+"', Status ='"+value13+"', Salary ='"+value14+"', job_title ='"+value15+"', Date_Hired ='"+value16+"'   "
+                        + " where id='"+value4+"' ";
+
+                pst=conn.prepareStatement(sql);
+                pst.execute();
+                JOptionPane.showMessageDialog(null, "Cập nhật thành công!");
+
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(null, e);
+            }
+            finally {
+
+                try{
+                    rs.close();
+                    pst.close();
+
+                }
+                catch(Exception e){
+
+                }
+            }
+
+        }
+    }//GEN-LAST:event_btn_updateActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -765,6 +831,7 @@ public class addEmployee extends javax.swing.JFrame {
     private javax.swing.JButton addEmp;
     private javax.swing.JButton addImg;
     private javax.swing.JButton btn_delete;
+    private javax.swing.JButton btn_update;
     private javax.swing.JButton clearForm;
     private javax.swing.JLabel img;
     private javax.swing.JDesktopPane jDesktopPane1;
