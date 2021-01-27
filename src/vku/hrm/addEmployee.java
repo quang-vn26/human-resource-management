@@ -729,7 +729,11 @@ public class addEmployee extends javax.swing.JFrame {
                 String add17 =rs.getString("Designation");
                 txt_design.setText(add17);
           
-
+                String add18 = rs.getString("Gender");
+                if(add18 == "Nam"){
+                    r_male.setSelected(true);
+                }
+                if(add18=="Nữ") r_female.setSelected(true);
                 
                 
                 byte[] image = rs.getBytes("Image");
@@ -825,8 +829,10 @@ public class addEmployee extends javax.swing.JFrame {
                         + "Dob='"+value3+"',Email='"+value5+"',Telephone='"+value6+"',"
                         + "Address='"+value7+"',Department='"+value8+"', Address2 = '"+value9+"', "
                         + "Apartment = '"+value10+"', Post_code ='"+value11+"', "
-                        + "Designation ='"+value12+"', Status ='"+value13+"', Salary ='"+value14+"', job_title ='"+value15+"', Date_Hired ='"+value16+"'   "
-                        + " where id='"+value4+"' ";
+                        + "Designation ='"+value12+"', Status ='"+value13+"',"
+                        + " Salary ='"+value14+"', job_title ='"+value15+"', "
+                        + "Date_Hired ='"+value16+"', Gender = '"+gender+"' "
+                        + " where id='"+value4+"'  ";
 
                 pst=conn.prepareStatement(sql);
                 pst.execute();
@@ -850,7 +856,7 @@ public class addEmployee extends javax.swing.JFrame {
                 pst.close();
                 
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, e);
+                //JOptionPane.showMessageDialog(null, e);
             }
             finally {
 
