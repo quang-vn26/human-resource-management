@@ -11,6 +11,6 @@ package vku.hrm;
  */
 public class Employee {
     public static int empId;
-    
+    public static String empName;
     
 }

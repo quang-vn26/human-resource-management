@@ -7,9 +7,9 @@ package vku.hrm;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.sql.*;
-import java.time.Month;
+//import java.time.Month;
 import javax.swing.JOptionPane;
-import java.util.Date;
+//import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Calendar;
 /**
@@ -178,6 +178,9 @@ public class login extends javax.swing.JFrame {
                 count=1;
                 int id = rs.getInt(1);
                 Employee.empId = id;
+                String username = rs.getString("username");
+                Employee.empName = username;
+                
                 System.out.println("rs.next():"+rs.getString(1));
             }
             System.out.println("count:"+count);
