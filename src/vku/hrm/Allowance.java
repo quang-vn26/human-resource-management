@@ -37,7 +37,7 @@ public class Allowance extends javax.swing.JFrame {
     public Allowance() {
         initComponents();
         
-        conn = db.java_db();
+        conn = DB.java_db();
         
         Toolkit toolkit = getToolkit();
         Dimension dimension = toolkit.getScreenSize();
@@ -541,7 +541,8 @@ public class Allowance extends javax.swing.JFrame {
                 String add6 =rs.getString("Department");
                 txt_dept.setText(add6);
         }catch(Exception e){
-            JOptionPane.showMessageDialog(null, e);
+//            JOptionPane.showMessageDialog(null, e);
+            JOptionPane.showMessageDialog(null, "Không có dữ liệu");
         }
         finally {
 

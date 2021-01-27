@@ -43,7 +43,7 @@ public class UpdateSalary extends javax.swing.JFrame {
         Dimension dimension = toolkit.getScreenSize();
         setLocation(dimension.width/2-getWidth()/2,dimension.height/2-getHeight()/2);
         
-        conn = db.java_db();
+        conn = DB.java_db();
     }
 
     /**
@@ -346,6 +346,7 @@ public class UpdateSalary extends javax.swing.JFrame {
                 txt_dept.setText(add8);
         } catch (Exception e) {
            // JOptionPane.showConfirmDialog(null, e);
+           JOptionPane.showMessageDialog(null, "Không có dữ liệu");
         }
         finally{
             try {
