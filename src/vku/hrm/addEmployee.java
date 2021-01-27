@@ -835,6 +835,23 @@ public class addEmployee extends javax.swing.JFrame {
             }catch(Exception e){
                 JOptionPane.showMessageDialog(null, e);
             }
+            try {
+                File file = new File(filename);
+                FileInputStream fis = new FileInputStream(file);
+                byte[] img = new byte[(int)file.length()];
+                fis.read(img);
+                
+                String value_id = txt_id.getText();
+                String sql = "Update Employee_information set image = ? where id = '"+value_id+"'";
+                
+                pst = conn.prepareStatement(sql);
+                pst.setBytes(1,img);
+                pst.executeUpdate();
+                pst.close();
+                
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
             finally {
 
                 try{
