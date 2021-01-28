@@ -80,6 +80,7 @@ public class UpdateSalary extends javax.swing.JFrame {
         updateSalary = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Cập nhật lương");
         setName("Cập nhật lương"); // NOI18N
 
         jLabel1.setText("Tìm kiếm theo ID:");

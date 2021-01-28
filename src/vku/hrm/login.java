@@ -69,11 +69,11 @@ public class Login extends javax.swing.JFrame {
         txt_password = new javax.swing.JPasswordField();
         jLabel5 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
         lbl_date = new javax.swing.JMenu();
         lbl_time = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Đăng nhập");
 
         jPanel1.setLayout(null);
 
@@ -132,9 +132,6 @@ public class Login extends javax.swing.JFrame {
         jLabel5.setMinimumSize(new java.awt.Dimension(100, 100));
         jPanel1.add(jLabel5);
         jLabel5.setBounds(0, 0, 600, 420);
-
-        jMenu1.setText("File");
-        jMenuBar1.add(jMenu1);
 
         lbl_date.setText("Date");
         jMenuBar1.add(lbl_date);
@@ -259,7 +256,6 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JMenu lbl_date;

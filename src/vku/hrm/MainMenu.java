@@ -4,26 +4,40 @@
  * and open the template in the editor.
  */
 package vku.hrm;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.FontFactory;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.BaseFont;
+
+import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.awt.Dimension;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.FontProvider;
 import java.awt.Toolkit;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font.FontFamily;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.GrayColor;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.PdfPTable;
+import java.awt.Font;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.Date;
+import java.sql.ResultSetMetaData;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import java.nio.charset.StandardCharsets;
-import java.awt.Dimension;
-import java.awt.Toolkit;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  *
@@ -34,13 +48,23 @@ public class MainMenu extends javax.swing.JFrame {
     /**
      * Creates new form MainMenu
      */
+    Connection conn = null;
+    ResultSet rs = null;
+    PreparedStatement pst = null;
+//    public static String FONT = "aachenb.tt/f";
+    public static String FONT = "arrusb.ttf";
+
     public MainMenu() {
         initComponents();
+        
+        conn=db.java_db();
+        
         Toolkit toolkit = getToolkit();
         Dimension dimension = toolkit.getScreenSize();
-        setLocation(dimension.width/2-getWidth()/2,dimension.height/2-getHeight()/2);
-        
+        setLocation(dimension.width / 2 - getWidth() / 2, dimension.height / 2 - getHeight() / 2);
+
         lbl_emp.setText(String.valueOf(Employee.empName).toString());
+            
     }
 
     /**
@@ -65,6 +89,7 @@ public class MainMenu extends javax.swing.JFrame {
         jMenu4 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("MAIN MENU");
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/vku/hrm/images/logout.png"))); // NOI18N
         jButton1.setText("Đăng Xuất");
@@ -92,9 +117,19 @@ public class MainMenu extends javax.swing.JFrame {
         jMenu2.add(jMenuItem1);
 
         jMenuItem2.setText("Phụ cấp nhân viên");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem2);
 
         jMenuItem3.setText("Khấu trừ nhân viên");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem3);
 
         jMenuBar1.add(jMenu2);
@@ -139,14 +174,263 @@ public class MainMenu extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        Login x  = new Login();
+        Login x = new Login();
         x.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
+        JFileChooser dialog = new JFileChooser();
+        dialog.setSelectedFile(new File("Danh sách nhân viên.pdf"));
+        int dialogResult = dialog.showSaveDialog(null);
+        if (dialogResult == JFileChooser.APPROVE_OPTION) {
+            String filePath = dialog.getSelectedFile().getPath();
+
+            try {
+                // TODO add your handling code here:
+
+                String sql = "select * from Employee_information";
+
+                pst = conn.prepareStatement(sql);
+                rs = pst.executeQuery();
+
+                Document myDocument = new Document();
+                PdfWriter myWriter = PdfWriter.getInstance(myDocument, new FileOutputStream(filePath));
+                PdfPTable table = new PdfPTable(13);
+                myDocument.open();
+
+                float[] columnWidths = new float[]{3, 8, 7, 5, 5, 9, 8, 9, 6, 6, 6, 8, 8};
+                table.setWidths(columnWidths);
+                
+                BaseFont bf = BaseFont.createFont(FONT, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+                BaseFont bf2 = BaseFont.createFont(FONT, BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
+                com.itextpdf.text.Font f1 = new com.itextpdf.text.Font(bf, 20);
+                com.itextpdf.text.Font f2 = new com.itextpdf.text.Font(bf, 10);
+                com.itextpdf.text.Font f3 = new com.itextpdf.text.Font(bf, 8);
+                
+                table.setWidthPercentage(100); //set table width to 100%
+
+                myDocument.add(new Paragraph("Danh sách nhân viên", f1));
+                myDocument.add(new Paragraph(new Date().toString(),f3));
+                myDocument.add(new Paragraph("-------------------------------------------------------------------------------------------"));
+                table.addCell(new PdfPCell(new Paragraph("ID", f2)));
+                table.addCell(new PdfPCell(new Paragraph("Tên", f2)));
+                table.addCell(new PdfPCell(new Paragraph("Họ và tên lót", f2)));
+                table.addCell(new PdfPCell(new Paragraph("Ngày sinh", f2)));
+                table.addCell(new PdfPCell(new Paragraph("Email", f2)));
+                table.addCell(new PdfPCell(new Paragraph("Số điện thoại", f2)));
+                table.addCell(new PdfPCell(new Paragraph("Địa chỉ", f2)));
+                table.addCell(new PdfPCell(new Paragraph("Phòng/Ban", f2)));
+                table.addCell(new PdfPCell(new Paragraph("Giới tính", f2)));
+                table.addCell(new PdfPCell(new Paragraph("Lương", f2)));
+                table.addCell(new PdfPCell(new Paragraph("Tình trạng", f2)));
+                table.addCell(new PdfPCell(new Paragraph("Ngày đầu làm việc", f2)));
+                table.addCell(new PdfPCell(new Paragraph("Tên công việc", f2)));
+
+                while (rs.next()) {
+
+                    table.addCell(new PdfPCell(new Paragraph(rs.getString(1), f3)));
+                    table.addCell(new PdfPCell(new Paragraph(rs.getString(2), f3)));
+                    table.addCell(new PdfPCell(new Paragraph(rs.getString(3), f3)));
+                    table.addCell(new PdfPCell(new Paragraph(rs.getString(4), f3)));
+                    table.addCell(new PdfPCell(new Paragraph(rs.getString(5), f3)));
+                    table.addCell(new PdfPCell(new Paragraph(rs.getString(6), f3)));
+                    table.addCell(new PdfPCell(new Paragraph(rs.getString(7), f3)));
+                    table.addCell(new PdfPCell(new Paragraph(rs.getString(8), f3)));
+                    table.addCell(new PdfPCell(new Paragraph(rs.getString(10), f3)));
+                    table.addCell(new PdfPCell(new Paragraph(rs.getString(11), f3)));
+                    table.addCell(new PdfPCell(new Paragraph(rs.getString(16), f3)));
+                    table.addCell(new PdfPCell(new Paragraph(rs.getString(17), f3)));
+                    table.addCell(new PdfPCell(new Paragraph(rs.getString(18), f3)));
+
+                }
+
+                myDocument.add(table);
+                myDocument.add(new Paragraph("--------------------------------------------------------------------------------------------"));
+                myDocument.close();
+                JOptionPane.showMessageDialog(null, "Báo cáo được tạo thành công");
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+
+            } finally {
+
+                try {
+                    rs.close();
+                    pst.close();
+
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, e);
+
+                }
+            }
+        }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+        JFileChooser dialog = new JFileChooser();
+        dialog.setSelectedFile(new File("Báo cáo phụ cấp của các nhân viên.pdf"));
+        int dialogResult = dialog.showSaveDialog(null);
+        if (dialogResult == JFileChooser.APPROVE_OPTION) {
+            String filePath = dialog.getSelectedFile().getPath();
+
+            try {
+                // TODO add your handling code here:
+
+                String sql = "select * from Allowance";
+
+                pst = conn.prepareStatement(sql);
+                rs = pst.executeQuery();
+
+                Document myDocument = new Document();
+                PdfWriter myWriter = PdfWriter.getInstance(myDocument, new FileOutputStream(filePath));
+                PdfPTable table = new PdfPTable(11);
+                myDocument.open();
+
+                float[] columnWidths = new float[]{3, 7, 7, 5, 5, 9, 6, 5, 8, 8, 8};
+                table.setWidths(columnWidths);
+
+                table.setWidthPercentage(100); //set table width to 100%
+                
+                BaseFont bf = BaseFont.createFont(FONT, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+                BaseFont bf2 = BaseFont.createFont(FONT, BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
+                com.itextpdf.text.Font f1 = new com.itextpdf.text.Font(bf, 20);
+                com.itextpdf.text.Font f2 = new com.itextpdf.text.Font(bf, 10);
+                com.itextpdf.text.Font f3 = new com.itextpdf.text.Font(bf, 8);
+
+                myDocument.add(new Paragraph("DANH SÁCH PHỤ CẤP CỦA NHÂN VIÊN", f1));
+                
+                myDocument.add(new Paragraph(new Date().toString(),f3));
+                myDocument.add(new Paragraph("-------------------------------------------------------------------------------------------"));
+                table.addCell(new PdfPCell(new Paragraph("ID", f2)));
+                table.addCell(new PdfPCell(new Paragraph("Làm thêm giờ", f2)));
+                table.addCell(new PdfPCell(new Paragraph("Bảo hiểm", f2)));
+                table.addCell(new PdfPCell(new Paragraph("Thưởng", f2)));
+                table.addCell(new PdfPCell(new Paragraph("Khác", f2)));
+                table.addCell(new PdfPCell(new Paragraph("ID nhân viên", f2)));
+                table.addCell(new PdfPCell(new Paragraph("Lương", f2)));
+                table.addCell(new PdfPCell(new Paragraph("Đánh giá", f2)));
+                table.addCell(new PdfPCell(new Paragraph("Phụ cấp", f2)));
+                table.addCell(new PdfPCell(new Paragraph("Tên", f2)));
+                table.addCell(new PdfPCell(new Paragraph("Họ và tên lót", f2)));
+
+                while (rs.next()) {
+
+                    table.addCell(new PdfPCell(new Paragraph(rs.getString(1), f2)));
+                    table.addCell(new PdfPCell(new Paragraph(rs.getString(2), f2)));
+                    table.addCell(new PdfPCell(new Paragraph(rs.getString(3), f2)));
+                    table.addCell(new PdfPCell(new Paragraph(rs.getString(4), f2)));
+                    table.addCell(new PdfPCell(new Paragraph(rs.getString(5), f2)));
+                    table.addCell(new PdfPCell(new Paragraph(rs.getString(6), f2)));
+                    table.addCell(new PdfPCell(new Paragraph(rs.getString(7), f2)));
+                    table.addCell(new PdfPCell(new Paragraph(rs.getString(8), f2)));
+                    table.addCell(new PdfPCell(new Paragraph(rs.getString(9), f2)));
+                    table.addCell(new PdfPCell(new Paragraph(rs.getString(10), f2)));
+                    table.addCell(new PdfPCell(new Paragraph(rs.getString(11), f2)));
+
+                }
+
+                myDocument.add(table);
+                myDocument.add(new Paragraph("--------------------------------------------------------------------------------------------"));
+                myDocument.close();
+                JOptionPane.showMessageDialog(null, "Báo cáo được tạo thành công");
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+
+            } finally {
+
+                try {
+                    rs.close();
+                    pst.close();
+
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, e);
+
+                }
+            }
+        }
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        // TODO add your handling code here:
+        JFileChooser dialog = new JFileChooser();
+        dialog.setSelectedFile(new File("Báo cáo trừ lương nhân viên.pdf"));
+        int dialogResult = dialog.showSaveDialog(null);
+        if (dialogResult == JFileChooser.APPROVE_OPTION) {
+            String filePath = dialog.getSelectedFile().getPath();
+
+            try {
+                // TODO add your handling code here:
+
+                String sql = "select * from Deductions";
+
+                pst = conn.prepareStatement(sql);
+                rs = pst.executeQuery();
+
+                Document myDocument = new Document();
+                PdfWriter myWriter = PdfWriter.getInstance(myDocument, new FileOutputStream(filePath));
+                PdfPTable table = new PdfPTable(8);
+                myDocument.open();
+
+                float[] columnWidths = new float[]{3, 7, 7, 5, 5, 9, 6, 5};
+                table.setWidths(columnWidths);
+
+                table.setWidthPercentage(100); //set table width to 100%
+                BaseFont bf = BaseFont.createFont(FONT, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+                BaseFont bf2 = BaseFont.createFont(FONT, BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
+                com.itextpdf.text.Font f1 = new com.itextpdf.text.Font(bf, 20);
+                com.itextpdf.text.Font f2 = new com.itextpdf.text.Font(bf, 10);
+                com.itextpdf.text.Font f3 = new com.itextpdf.text.Font(bf, 8);
+                
+                myDocument.add(new Paragraph("DANH SÁCH TRỪ LƯƠNG NHÂN VIÊN", FontFactory.getFont(FontFactory.TIMES_BOLD, 20, Font.BOLD)));
+                myDocument.add(new Paragraph(new Date().toString(),f3));
+                myDocument.add(new Paragraph("-------------------------------------------------------------------------------------------"));
+                table.addCell(new PdfPCell(new Paragraph("ID", f2)));
+                table.addCell(new PdfPCell(new Paragraph("Tên", f2)));
+                table.addCell(new PdfPCell(new Paragraph("Họ và tên lót", f2)));
+                table.addCell(new PdfPCell(new Paragraph("Lương", f2)));
+                table.addCell(new PdfPCell(new Paragraph("Số lượng bị trừ", f2)));
+                table.addCell(new PdfPCell(new Paragraph("Lý do trừ lương", f2)));
+                table.addCell(new PdfPCell(new Paragraph("ID nhân viên", f2)));
+                table.addCell(new PdfPCell(new Paragraph("Người trừ lương", f2)));
+
+                while (rs.next()) {
+                    table.addCell(new PdfPCell(new Paragraph(rs.getString(1), f2)));
+                    table.addCell(new PdfPCell(new Paragraph(rs.getString(2), f2)));
+                    table.addCell(new PdfPCell(new Paragraph(rs.getString(3), f2)));
+                    table.addCell(new PdfPCell(new Paragraph(rs.getString(4), f2)));
+                    table.addCell(new PdfPCell(new Paragraph(rs.getString(5), f2)));
+                    table.addCell(new PdfPCell(new Paragraph(rs.getString(6), f2)));
+                    table.addCell(new PdfPCell(new Paragraph(rs.getString(7), f2)));
+                    table.addCell(new PdfPCell(new Paragraph(rs.getString(8), f2)));
+
+                }
+
+                myDocument.add(table);
+                myDocument.add(new Paragraph("--------------------------------------------------------------------------------------------"));
+                myDocument.close();
+                JOptionPane.showMessageDialog(null, "Báo cáo được tạo thành công");
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+
+            } finally {
+
+                try {
+                    rs.close();
+                    pst.close();
+
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, e);
+
+                }
+            }
+        }
+
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     /**
      * @param args the command line arguments

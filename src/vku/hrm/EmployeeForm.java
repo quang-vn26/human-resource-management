@@ -97,7 +97,8 @@ public class EmployeeForm extends javax.swing.JFrame {
         btn_delete = new javax.swing.JButton();
         btn_update = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Nhân viên");
 
         txt_id.setEditable(false);
         txt_id.addActionListener(new java.awt.event.ActionListener() {

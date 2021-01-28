@@ -75,7 +75,8 @@ public class SalarySlip extends javax.swing.JFrame {
         txt_design = new javax.swing.JTextField();
         txt_print_pdf_salary = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("In Phiếu Lương");
 
         jLabel1.setText("Tìm theo ID:");
 
@@ -323,8 +324,7 @@ public class SalarySlip extends javax.swing.JFrame {
         JFileChooser dialog = new JFileChooser();
         dialog.setSelectedFile(new File("Phiếu lương_"+value2 +" "+ value1+".pdf"));
         int dialogResult = dialog.showSaveDialog(null);
-        System.out.print("dialog: "+dialog);
-        
+        //System.out.print("dialog: "+dialog); 
         if (dialogResult==JFileChooser.APPROVE_OPTION){
             String filePath = dialog.getSelectedFile().getPath();
             try {

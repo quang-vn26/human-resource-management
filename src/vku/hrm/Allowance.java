@@ -137,6 +137,7 @@ public class Allowance extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Phụ cấp");
 
         jLabel1.setText("Tìm theo ID:");
 
