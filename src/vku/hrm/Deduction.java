@@ -37,7 +37,7 @@ public class Deduction extends javax.swing.JFrame {
     PreparedStatement pst=null;
     public Deduction() {
         initComponents();
-        conn = DB.java_db();
+        conn = db.java_db();
         Toolkit toolkit = getToolkit();
         Dimension dimension = toolkit.getScreenSize();
         setLocation(dimension.width/2-getWidth()/2,dimension.height/2-getHeight()/2);

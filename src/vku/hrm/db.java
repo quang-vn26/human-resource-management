@@ -10,7 +10,7 @@ import javax.swing.*;
  *
  * @author Admin
  */
-public class DB {
+public class db {
     Connection conn = null;
     public static Connection java_db(){
         try {

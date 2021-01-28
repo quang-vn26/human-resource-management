@@ -40,7 +40,7 @@ public class EmployeeForm extends javax.swing.JFrame {
         Dimension dimension = toolkit.getScreenSize();
         setLocation(dimension.width/2-getWidth()/2,dimension.height/2-getHeight()/2);
         
-        conn = DB.java_db();
+        conn = db.java_db();
     }
 
     /**

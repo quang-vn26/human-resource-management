@@ -37,7 +37,7 @@ public class Allowance extends javax.swing.JFrame {
     public Allowance() {
         initComponents();
         
-        conn = DB.java_db();
+        conn = db.java_db();
         
         Toolkit toolkit = getToolkit();
         Dimension dimension = toolkit.getScreenSize();
@@ -583,14 +583,12 @@ public class Allowance extends javax.swing.JFrame {
                   
             pst=conn.prepareStatement(sql);
             pst.execute();
-            JOptionPane.showMessageDialog(null, "Bản ghi lương bổ sung đã được thêm");
-           
-                  
+            JOptionPane.showMessageDialog(null, "Bản ghi lương bổ sung đã được thêm");          
         } 
         catch (Exception e)
             
         {
-            JOptionPane.showMessageDialog(null,e);
+//            JOptionPane.showMessageDialog(null,e);
         }
       
        
