@@ -4,49 +4,79 @@
  * and open the template in the editor.
  */
 package vku.hrm;
+
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.pdf.PdfWriter;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.sql.*;
-//import java.time.Month;
-import javax.swing.JOptionPane;
-//import java.util.Date;
-import java.util.GregorianCalendar;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font.FontFamily;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.GrayColor;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.PdfPTable;
+import java.awt.Font;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 /**
  *
  * @author Admin
  */
 public class Login extends javax.swing.JFrame {
+
     Connection conn = null;
     ResultSet rs = null;
     PreparedStatement pst = null;
+
     /**
      * Creates new form login
      */
     public Login() {
         initComponents();
-        
+
         Toolkit toolkit = getToolkit();
         Dimension dimension = toolkit.getScreenSize();
-        setLocation(dimension.width/2-getWidth()/2,dimension.height/2-getHeight()/2);
-        
+        setLocation(dimension.width / 2 - getWidth() / 2, dimension.height / 2 - getHeight() / 2);
+
         conn = db.java_db();
-        
+
         curentDateTime();
     }
-    public void curentDateTime(){
+
+    public void curentDateTime() {
         Calendar cal = new GregorianCalendar();
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH);
         int date = cal.get(Calendar.DATE);
-        
-        lbl_date.setText((date)+"/"+(month +1)+"/"+year);
-        
+
+        lbl_date.setText((date) + "/" + (month + 1) + "/" + year);
+
         int hour = cal.get(Calendar.HOUR);
         int minute = cal.get(Calendar.MINUTE);
         int second = cal.get(Calendar.SECOND);
-        
-        lbl_time.setText(hour+":"+minute+":"+second);
+
+        lbl_time.setText(hour + ":" + minute + ":" + second);
     }
 
     /**
@@ -160,41 +190,60 @@ public class Login extends javax.swing.JFrame {
         //String sql = "select id,username,password,division from Users where (username =? and password =? and division =?)";
         String sql = "select * from Users Where (username =? and password =? and division =?)";
         try {
-            int count =0;
-            
+            int count = 0;
+
             pst = conn.prepareStatement(sql);
-            
+
             pst.setString(1, txt_username.getText());
             pst.setString(2, txt_password.getText());
             pst.setString(3, txt_combobox.getSelectedItem().toString());
-            
+
             rs = pst.executeQuery();
             String access = txt_combobox.getSelectedItem().toString();
-            
-            while(rs.next()){ 
-                count=1;
+
+            while (rs.next()) {
+                count = 1;
                 int id = rs.getInt(1);
                 Employee.empId = id;
                 String username = rs.getString("username");
                 Employee.empName = username;
-                
-                System.out.println("rs.next():"+rs.getString(1));
+
+                System.out.println("rs.next():" + rs.getString(1));
             }
-            System.out.println("count:"+count);
-            System.out.println("access: "+access);
-            if(access == "Admin"){
-                if(count == 1){
+            System.out.println("count:" + count);
+            System.out.println("access: " + access);
+            if (access == "Admin" || access == "Quản trị viên" || access == "Giám đốc") {
+                if (count == 1) {
                     JOptionPane.showMessageDialog(null, "Đăng Nhập Thành Công!");
-                    MainMenu j =  new MainMenu();
+                    MainMenu j = new MainMenu();
                     j.setVisible(true);
-                    this.dispose();    
+                    this.dispose();
+
+                    Date currentDate = GregorianCalendar.getInstance().getTime();
+                    DateFormat df = DateFormat.getDateInstance();
+                    String dateString = df.format(currentDate);
+
+                    Date d = new Date();
+                    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+                    String timeString = sdf.format(d);
+
+                    String value0 = timeString;
+                    String values = dateString;
+
+                    int value = Employee.empId;
+                    String reg = "insert into Audit (emp_id,date,status) values ('" + value + "','" + value0 + " / " + values + "','Đăng nhập')";
+                    pst = conn.prepareStatement(reg);
+                    pst.execute();
+                    this.dispose();
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "Đăng nhập thất bại!");
                 }
-                else JOptionPane.showMessageDialog(null, "Đăng nhập thất bại!");
             }
-            
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
-        }finally{
+        } finally {
             try {
                 rs.close();
                 pst.close();
@@ -215,7 +264,6 @@ public class Login extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
