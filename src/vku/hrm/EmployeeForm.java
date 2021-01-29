@@ -547,7 +547,7 @@ public class EmployeeForm extends javax.swing.JFrame {
                  
             
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e);
+            //JOptionPane.showMessageDialog(null, e);
         }
         
         try {
@@ -570,7 +570,7 @@ public class EmployeeForm extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null,"Hồ sơ được tạo thành công: " +" Tên đăng nhập:  "+add2+ "| Mật khẩu:  "+result);
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null,e);
+            //JOptionPane.showMessageDialog(null,e);
         }
         finally{
             try{
@@ -742,7 +742,7 @@ public class EmployeeForm extends javax.swing.JFrame {
 
         }catch(Exception e){
                 //JOptionPane.showMessageDialog(null,e);
-                JOptionPane.showMessageDialog(null, "Không có dữ liệu");
+               // JOptionPane.showMessageDialog(null, "Không có dữ liệu");
         }
         finally {
 

@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package vku.hrm;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,6 +24,7 @@ import java.util.GregorianCalendar;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import net.proteanit.sql.DbUtils;
+
 /**
  *
  * @author Admin
@@ -32,15 +34,16 @@ public class Deduction extends javax.swing.JFrame {
     /**
      * Creates new form Deduction
      */
-    Connection  conn=null;
-    ResultSet rs=null;
-    PreparedStatement pst=null;
+    Connection conn = null;
+    ResultSet rs = null;
+    PreparedStatement pst = null;
+
     public Deduction() {
         initComponents();
         conn = db.java_db();
         Toolkit toolkit = getToolkit();
         Dimension dimension = toolkit.getScreenSize();
-        setLocation(dimension.width/2-getWidth()/2,dimension.height/2-getHeight()/2);
+        setLocation(dimension.width / 2 - getWidth() / 2, dimension.height / 2 - getHeight() / 2);
     }
 
     /**
@@ -400,45 +403,44 @@ public class Deduction extends javax.swing.JFrame {
     private void txt_search_idKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_search_idKeyReleased
         // TODO add your handling code here:
         try {
-            String sql ="select * from Employee_information where id=? ";
+            String sql = "select * from Employee_information where id=? ";
 
-            pst=conn.prepareStatement(sql);
-            pst.setString(1,txt_search_id.getText());
-            rs=pst.executeQuery();
+            pst = conn.prepareStatement(sql);
+            pst.setString(1, txt_search_id.getText());
+            rs = pst.executeQuery();
 
-            String add1 =rs.getString("id");
+            String add1 = rs.getString("id");
             txt_empid.setText(add1);
 
-            String add2 =rs.getString("first_name");
+            String add2 = rs.getString("first_name");
             txt_firstname.setText(add2);
 
-            String add3 =rs.getString("surname");
+            String add3 = rs.getString("surname");
             txt_lastname.setText(add3);
 
-            String add4 =rs.getString("Dob");
+            String add4 = rs.getString("Dob");
             txt_dob.setText(add4);
 
-            String add5 =rs.getString("Department");
+            String add5 = rs.getString("Department");
             txt_dept.setText(add5);
 
-            String add7 =rs.getString("Salary");
+            String add7 = rs.getString("Salary");
             txt_salary.setText(add7);
 
-            String add8 =rs.getString("Status");
+            String add8 = rs.getString("Status");
             txt_status.setText(add8);
 
-            String add9 =rs.getString("Date_hired");
+            String add9 = rs.getString("Date_hired");
             txt_firt.setText(add9);
 
-            String add10 =rs.getString("job_title");
+            String add10 = rs.getString("job_title");
             txt_job.setText(add10);
 
-            String add17 =rs.getString("Designation");
+            String add17 = rs.getString("Designation");
             txt_desig.setText(add17);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Không có dữ liệu");
-        }
-        finally{
+        } finally {
             try {
                 rs.close();
                 pst.close();
@@ -450,60 +452,74 @@ public class Deduction extends javax.swing.JFrame {
     private void btn_calActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_calActionPerformed
         // TODO add your handling code here:
         int salary = Integer.parseInt(txt_salary.getText());
-        
-        
-         if(r_percentage.isSelected()== true){
-        int percentage = Integer.parseInt(txt_percentage.getText());
-        //calculate the total hours of overtime
-        int total_percentage_deduction = salary /100 * percentage;
-        String x = String.valueOf(total_percentage_deduction);
-        int sal = salary - total_percentage_deduction;
-        lbl_total.setText(x);
-        lbl_sal.setText(String.valueOf(sal));
-         }
-        
-        if(r_amount.isSelected()== true){
-        int deduction = Integer.parseInt(txt_deduction.getText());
-        //calculate the total hours of overtime
-        int total_amount_deduction =  salary - deduction;
-        String s = String.valueOf(total_amount_deduction);
-       
-        lbl_sal.setText(s);
-        lbl_total.setText(String.valueOf(deduction));
-        
+
+        if (r_percentage.isSelected() == true) {
+            int percentage = Integer.parseInt(txt_percentage.getText());
+            //calculate the total hours of overtime
+            int total_percentage_deduction = salary / 100 * percentage;
+            String x = String.valueOf(total_percentage_deduction);
+            int sal = salary - total_percentage_deduction;
+            lbl_total.setText(x);
+            lbl_sal.setText(String.valueOf(sal));
+        }
+
+        if (r_amount.isSelected() == true) {
+            int deduction = Integer.parseInt(txt_deduction.getText());
+            //calculate the total hours of overtime
+            int total_amount_deduction = salary - deduction;
+            String s = String.valueOf(total_amount_deduction);
+
+            lbl_sal.setText(s);
+            lbl_total.setText(String.valueOf(deduction));
+
         }
     }//GEN-LAST:event_btn_calActionPerformed
 
     private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_saveActionPerformed
         // TODO add your handling code here:
-        int p = JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn thêm bản ghi?","Thêm bản ghi",JOptionPane.YES_NO_OPTION);
-        if(p==0){
+        int p = JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn thêm bản ghi?", "Thêm bản ghi", JOptionPane.YES_NO_OPTION);
+        if (p == 0) {
             String value3 = txt_emp.getText();
             try {
-                String sql ="insert into Deductions (firstname,surname,salary,deduction_amount,deduction_reason,emp_id,made_by) values (?,?,?,?,?,?,'"+value3+"')";
-                pst=conn.prepareStatement(sql);
-                pst.setString(1,txt_firstname.getText());
-                pst.setString(2,txt_lastname.getText());
-                pst.setString(3,txt_salary.getText());
-                pst.setString(4,lbl_total.getText());
-                pst.setString(5,txt_reason.getText());
-                pst.setString(6,txt_empid.getText());
-  
+                String sql = "insert into Deductions (firstname,surname,salary,deduction_amount,deduction_reason,emp_id,made_by) values (?,?,?,?,?,?,'" + value3 + "')";
+                pst = conn.prepareStatement(sql);
+                pst.setString(1, txt_firstname.getText());
+                pst.setString(2, txt_lastname.getText());
+                pst.setString(3, txt_salary.getText());
+                pst.setString(4, lbl_total.getText());
+                pst.setString(5, txt_reason.getText());
+                pst.setString(6, txt_empid.getText());
+
                 pst.execute();
-                JOptionPane.showMessageDialog(null,"Bản ghi được lưu thành công");
+                JOptionPane.showMessageDialog(null, "Bản ghi được lưu thành công");
             } catch (Exception e) {
 //                JOptionPane.showMessageDialog(null,e);
             }
+
             try {
-                
+                Date currentDate = GregorianCalendar.getInstance().getTime();
+                DateFormat df = DateFormat.getDateInstance();
+                String dateString = df.format(currentDate);
+
+                Date d = new Date();
+                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+                String timeString = sdf.format(d);
+
+                String value0 = timeString;
+                String values = dateString;
+                String val = txt_empid.getText().toString();
+
+                String reg = "insert into Audit (emp_id, date, status) values ('" + val + "','" + value0 + " / " + values + "','Cập nhật khấu trừ')";
+                pst = conn.prepareStatement(reg);
+                pst.execute();
             } catch (Exception e) {
-            }
-            finally{
+                JOptionPane.showMessageDialog(null, e);
+            } finally {
                 try {
                     rs.close();
                     pst.close();
                 } catch (Exception e) {
-                    JOptionPane.showMessageDialog(null,e);
+                    JOptionPane.showMessageDialog(null, e);
                 }
             }
         }
