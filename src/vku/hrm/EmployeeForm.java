@@ -245,6 +245,11 @@ public class EmployeeForm extends javax.swing.JFrame {
             }
         });
 
+        txt_search.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_searchActionPerformed(evt);
+            }
+        });
         txt_search.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txt_searchKeyReleased(evt);
@@ -917,6 +922,10 @@ public class EmployeeForm extends javax.swing.JFrame {
          txt_search.setText(String.valueOf(i));
          update_search();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void txt_searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_searchActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_searchActionPerformed
 
     /**
      * @param args the command line arguments

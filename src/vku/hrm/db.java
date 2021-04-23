@@ -15,7 +15,7 @@ public class db {
     public static Connection java_db(){
         try {
             Class.forName("org.sqlite.JDBC");
-            String url = "jdbc:sqlite:C:\\Users\\Admin\\Desktop\\QuanLyNhanSu\\QuanLyNhanSu\\data.sqlite";
+            String url = "jdbc:sqlite:C:\\Users\\Admin\\Desktop\\QuanLyNhanSu\\data.sqlite";
             Connection conn = DriverManager.getConnection(url);
             return conn;
         } catch (Exception e) {

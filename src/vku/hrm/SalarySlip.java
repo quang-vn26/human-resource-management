@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package vku.hrm;
+
 import com.itextpdf.text.Document;
 import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Paragraph;
@@ -22,24 +23,27 @@ import java.util.Date;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import java.nio.charset.StandardCharsets;
+
 /**
  *
  * @author Admin
  */
 public class SalarySlip extends javax.swing.JFrame {
-    Connection conn=null;
-    ResultSet rs=null;
-    PreparedStatement pst=null;
+
+    Connection conn = null;
+    ResultSet rs = null;
+    PreparedStatement pst = null;
+
     /**
      * Creates new form SalarySlip
      */
     public SalarySlip() {
         initComponents();
-        conn=db.java_db();
+        conn = db.java_db();
         Toolkit toolkit = getToolkit();
         Dimension size = toolkit.getScreenSize();
-        setLocation(size.width/2 - getWidth()/2, 
-        size.height/2 - getHeight()/2);
+        setLocation(size.width / 2 - getWidth() / 2,
+                size.height / 2 - getHeight() / 2);
     }
 
     /**
@@ -268,48 +272,109 @@ public class SalarySlip extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_searchActionPerformed
       private void txt_searchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_searchKeyReleased
-        // TODO add your handling code here:
-        update_search();
+          // TODO add your handling code here:
+          try {
+              String sql = "select * from Employee_information where id=? ";
+
+              pst = conn.prepareStatement(sql);
+              pst.setString(1, txt_search.getText());
+              rs = pst.executeQuery();
+
+              String add1 = rs.getString("id");
+              txt_id.setText(add1);
+
+              String add2 = rs.getString("first_name");
+              txt_firstname.setText(add2);
+
+              String add3 = rs.getString("surname");
+              txt_surname.setText(add3);
+
+              String add4 = rs.getString("Dob");
+              txt_dob.setText(add4);
+
+              String add5 = rs.getString("Department");
+              txt_dep.setText(add5);
+
+              String add7 = rs.getString("Salary");
+              txt_salary.setText(add7);
+
+              String add8 = rs.getString("Status");
+              txt_status.setText(add8);
+
+              String add9 = rs.getString("Date_hired");
+              txt_doj.setText(add9);
+
+              String add10 = rs.getString("job_title");
+              txt_job.setText(add10);
+
+              String add17 = rs.getString("Designation");
+              txt_design.setText(add17);
+
+          } catch (Exception e) {
+              txt_id.setText("");
+              txt_firstname.setText("");
+              txt_surname.setText("");
+//            txt_tel.setText("");
+              txt_dob.setText("");
+//            txt_email.setText("");
+//            txt_address.setText("");
+              txt_dep.setText("");
+              txt_status.setText("");
+              txt_salary.setText("");
+//            txt_address2.setText("");
+//            txt_pc.setText("");
+              txt_design.setText("");
+              txt_job.setText("");
+//            txt_dep.setText("");
+              txt_doj.setText("");
+//            img.setIcon(null);
+          } finally {
+              try {
+                  rs.close();
+                  pst.close();
+              } catch (Exception e) {
+              }
+          }
+//        update_search();
     }//GEN-LAST:event_txt_searchKeyReleased
 
-      private void update_search(){
-          try {
-            String sql ="select * from Employee_information where id=? ";
+    private void update_search() {
+        try {
+            String sql = "select * from Employee_information where id=? ";
 
-            pst=conn.prepareStatement(sql);
-            pst.setString(1,txt_search.getText());
-            rs=pst.executeQuery();
+            pst = conn.prepareStatement(sql);
+            pst.setString(1, txt_search.getText());
+            rs = pst.executeQuery();
 
-            String add1 =rs.getString("id");
+            String add1 = rs.getString("id");
             txt_id.setText(add1);
 
-            String add2 =rs.getString("first_name");
+            String add2 = rs.getString("first_name");
             txt_firstname.setText(add2);
 
-            String add3 =rs.getString("surname");
+            String add3 = rs.getString("surname");
             txt_surname.setText(add3);
 
-            String add4 =rs.getString("Dob");
+            String add4 = rs.getString("Dob");
             txt_dob.setText(add4);
 
-            String add5 =rs.getString("Department");
+            String add5 = rs.getString("Department");
             txt_dep.setText(add5);
 
-            String add7 =rs.getString("Salary");
+            String add7 = rs.getString("Salary");
             txt_salary.setText(add7);
 
-            String add8 =rs.getString("Status");
+            String add8 = rs.getString("Status");
             txt_status.setText(add8);
 
-            String add9 =rs.getString("Date_hired");
+            String add9 = rs.getString("Date_hired");
             txt_doj.setText(add9);
 
-            String add10 =rs.getString("job_title");
+            String add10 = rs.getString("job_title");
             txt_job.setText(add10);
 
-            String add17 =rs.getString("Designation");
+            String add17 = rs.getString("Designation");
             txt_design.setText(add17);
-
 
         } catch (Exception e) {
             txt_id.setText("");
@@ -329,96 +394,94 @@ public class SalarySlip extends javax.swing.JFrame {
 //            txt_dep.setText("");
             txt_doj.setText("");
 //            img.setIcon(null);
-        }
-        finally{
+        } finally {
             try {
                 rs.close();
                 pst.close();
             } catch (Exception e) {
             }
         }
-      }
+    }
     private void txt_print_pdf_salaryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_print_pdf_salaryActionPerformed
         // TODO add your handling code here:
-        String value1 =  txt_firstname.getText();
-        String value2 =  txt_surname.getText();
+        String value1 = txt_firstname.getText();
+        String value2 = txt_surname.getText();
         String value3 = txt_id.getText();
         String value4 = txt_dep.getText();
         String value5 = txt_design.getText();
-        
+
         JFileChooser dialog = new JFileChooser();
-        dialog.setSelectedFile(new File("Phiếu lương_"+value2 +" "+ value1+".pdf"));
+        dialog.setSelectedFile(new File("Phiếu lương_" + value2 + " " + value1 + ".pdf"));
         int dialogResult = dialog.showSaveDialog(null);
-        //System.out.print("dialog: "+dialog); 
-        if (dialogResult==JFileChooser.APPROVE_OPTION){
+        System.out.print("dialog: "+dialog); 
+        if (dialogResult == JFileChooser.APPROVE_OPTION) {
             String filePath = dialog.getSelectedFile().getPath();
             try {
-                String sql ="select * from Deductions where emp_id = '"+value3+"'";
-                pst=conn.prepareStatement(sql);
-                rs=pst.executeQuery(); 
+                String sql = "select * from Deductions where emp_id = '" + value3 + "'";
+                pst = conn.prepareStatement(sql);
+                rs = pst.executeQuery();
                 String val = rs.getString(5);
                 String reason = rs.getString(6);
                 rs.close();
                 pst.close();
-              
-                String sq ="select * from Allowance where emp_id = '"+value3+"'";
-                pst=conn.prepareStatement(sq);
-                rs=pst.executeQuery(); 
-                                
-               int calcTotal = Integer.parseInt(txt_salary.getText());
-               float x = Float.valueOf(rs.getString(9));
-               int v = Integer.parseInt(val);
-               float total = calcTotal +x -v;
-               
-               Document myDocument = new Document();
-               
-               PdfWriter myWriter = PdfWriter.getInstance(myDocument, new FileOutputStream(filePath));
-               myDocument.open();
-                
+
+                String sq = "select * from Allowance where emp_id = '" + value3 + "'";
+                pst = conn.prepareStatement(sq);
+                rs = pst.executeQuery();
+
+                int calcTotal = Integer.parseInt(txt_salary.getText());
+                float x = Float.valueOf(rs.getString(9));
+                int v = Integer.parseInt(val);
+                float total = calcTotal + x - v;
+
+                Document myDocument = new Document();
+
+                PdfWriter myWriter = PdfWriter.getInstance(myDocument, new FileOutputStream(filePath));
+                myDocument.open();
+
 //                BaseFont bf = BaseFont.createFont("aachenb.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
                 String FONT = "aachenb.ttf";
                 String TEXT = "The Cardo family of fonts supports this character: \u2609";
-                
+
                 BaseFont bf = BaseFont.createFont(FONT, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
                 BaseFont bf2 = BaseFont.createFont(FONT, BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
                 Font f1 = new Font(bf, 20);
                 Font f2 = new Font(bf, 13);
                 Font f3 = new Font(bf, 13);
-                
-                myDocument.add(new Paragraph("PHIẾU TIỀN LƯƠNG", new Font(bf2, 30)));
+
+//                myDocument.add(new Paragraph("PHIẾU TIỀN LƯƠNG", new Font(bf2, 30)));
                 myDocument.add(new Paragraph("PHIẾU TIỀN LƯƠNG", new Font(bf, 30)));
-                myDocument.add(new Paragraph(new Date().toString(),f2));
+                myDocument.add(new Paragraph(new Date().toString(), f2));
                 myDocument.add(new Paragraph("-------------------------------------------------------------------------------------------"));
-                myDocument.add(new Paragraph("THÔNG TIN NHÂN VIÊN",f1));
-                myDocument.add((new Paragraph("Tên nhân viên: " +value2 + " "+value1,f2)));
-                myDocument.add((new Paragraph("Chức vụ: "+value5,f2)));
-                myDocument.add((new Paragraph("Phòng/ban: "+value4,f2)));
+                myDocument.add(new Paragraph("THÔNG TIN NHÂN VIÊN", f1));
+                myDocument.add((new Paragraph("Tên nhân viên: " + value2 + " " + value1, f2)));
+                myDocument.add((new Paragraph("Chức vụ: " + value5, f2)));
+                myDocument.add((new Paragraph("Phòng/ban: " + value4, f2)));
                 myDocument.add(new Paragraph("-------------------------------------------------------------------------------------------"));
-                myDocument.add(new Paragraph("LƯƠNG",f1));
-                myDocument.add(new Paragraph("Lương cơ bản: "+calcTotal+" vnđ",f2));
-                myDocument.add(new Paragraph("Làm thêm giờ: "+rs.getString(2)+" Giờ",f2));
-                myDocument.add(new Paragraph("Bảo hiểm: " +rs.getString(3) +" vnđ",f2));
-                myDocument.add(new Paragraph("Tiền thưởng:"+rs.getString(4) +" vnđ",f2));
-                myDocument.add(new Paragraph("Khác: "+rs.getString(5) +" vnđ",f2));
+                myDocument.add(new Paragraph("LƯƠNG", f1));
+                myDocument.add(new Paragraph("Lương cơ bản: " + calcTotal + " vnđ", f2));
+                myDocument.add(new Paragraph("Làm thêm giờ: " + rs.getString(2) + " Giờ", f2));
+                myDocument.add(new Paragraph("Bảo hiểm: " + rs.getString(3) + " vnđ", f2));
+                myDocument.add(new Paragraph("Tiền thưởng:" + rs.getString(4) + " vnđ", f2));
+                myDocument.add(new Paragraph("Khác: " + rs.getString(5) + " vnđ", f2));
                 myDocument.add(new Paragraph("-------------------------------------------------------------------------------------------"));
-                myDocument.add(new Paragraph("KHẤU TRỪ",f1));
-                myDocument.add(new Paragraph("Lý do khấu trừ: "+reason,f2));
-                myDocument.add(new Paragraph("Tổng khấu trừ : "+val+" vnđ" ,f2));
+                myDocument.add(new Paragraph("KHẤU TRỪ", f1));
+                myDocument.add(new Paragraph("Lý do khấu trừ: " + reason, f2));
+                myDocument.add(new Paragraph("Tổng khấu trừ : " + val + " vnđ", f2));
                 myDocument.add(new Paragraph("-------------------------------------------------------------------------------------------"));
-                myDocument.add(new Paragraph("TỔNG",f1));
-                myDocument.add(new Paragraph("Số tiền được thưởng: "+rs.getString(9)+" vnđ",f2));
-                myDocument.add(new Paragraph("Số tiền trả thực tế : " +total+" vnđ",f2));
+                myDocument.add(new Paragraph("TỔNG", f1));
+                myDocument.add(new Paragraph("Số tiền được thưởng: " + rs.getString(9) + " vnđ", f2));
+                myDocument.add(new Paragraph("Số tiền trả thực tế : " + total + " vnđ", f2));
                 myDocument.add(new Paragraph("-------------------------------------------------------------------------------------------"));
 
-               myDocument.newPage();
-               myDocument.close();  
-                
-                JOptionPane.showMessageDialog(null,"Tạo file pdf thành công");
+                myDocument.newPage();
+                myDocument.close();
+
+                JOptionPane.showMessageDialog(null, "Tạo file pdf thành công");
 
             } catch (Exception e) {
-                 JOptionPane.showMessageDialog(null,e);
-            }
-            finally{
+                JOptionPane.showMessageDialog(null, e);
+            } finally {
                 try {
                     rs.close();
                     pst.close();
@@ -432,7 +495,7 @@ public class SalarySlip extends javax.swing.JFrame {
         // TODO add your handling code here
 //        update_search();
         String string = txt_search.getText();
-        int i=Integer.parseInt(string)-1;
+        int i = Integer.parseInt(string) - 1;
         txt_search.setText(String.valueOf(i));
         update_search();
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -440,12 +503,11 @@ public class SalarySlip extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         String string = txt_search.getText();
-        int i=Integer.parseInt(string)+1;
+        int i = Integer.parseInt(string) + 1;
         txt_search.setText(String.valueOf(i));
         update_search();
     }//GEN-LAST:event_jButton2ActionPerformed
 
-  
     /**
      * @param args the command line arguments
      */

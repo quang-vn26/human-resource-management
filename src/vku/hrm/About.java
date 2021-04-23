@@ -42,7 +42,7 @@ public class About extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setText("Giới thiệu");
 
-        jLabel2.setText("Phần mềm này được phát triển bởi Nguyễn Ngọc Quang và Nguyễn Trọng Tài");
+        jLabel2.setText("Phần mềm này được phát triển bởi Nguyễn Ngọc Quang(18IT348)");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

@@ -59,7 +59,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Ph&#x1ea7;n m&#x1ec1;m n&#xe0;y &#x111;&#x1b0;&#x1ee3;c ph&#xe1;t tri&#x1ec3;n b&#x1edf;i Nguy&#x1ec5;n Ng&#x1ecd;c Quang v&#xe0; Nguy&#x1ec5;n Tr&#x1ecd;ng T&#xe0;i"/>
+        <Property name="text" type="java.lang.String" value="Ph&#x1ea7;n m&#x1ec1;m n&#xe0;y &#x111;&#x1b0;&#x1ee3;c ph&#xe1;t tri&#x1ec3;n b&#x1edf;i Nguy&#x1ec5;n Ng&#x1ecd;c Quang(18IT348)"/>
       </Properties>
     </Component>
   </SubComponents>
